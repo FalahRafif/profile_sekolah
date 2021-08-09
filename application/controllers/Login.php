@@ -30,13 +30,6 @@ class Login extends CI_Controller {
         $data = '';
         
         $this->load->view('login/login', $data);
-        $plain_text = 'This is a plain-text message!';
-        $ciphertext = $this->encryption->encrypt($plain_text);
-
-        // Outputs: This is a plain-text message!
-        echo $this->encryption->decrypt($ciphertext);
-        var_dump($ciphertext);
-
     }
     public function login()
     {
@@ -48,13 +41,12 @@ class Login extends CI_Controller {
             $cekUser = $this->model_login->getDataUser($username);
             if(isset($cekUser)){
                 //// cek password sama atau tidak 
-                if($password === $cekUser['pw']){
+                if($this->encryption->decrypt($password) === $cekUser['pw']){
                     //get user level
                     $userLevel = $this->model_login->getUserLevel($cekUser['id_user_level']);
                     // set session
                     $sessionData = [
                         'username' => $cekUser['username'],
-                        'password' => $cekUser['pw'],
                         'user_level' => $userLevel
                     ];
                     $this->session->set_userdata($sessionData);
