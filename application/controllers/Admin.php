@@ -40,7 +40,7 @@ class Admin extends CI_Controller {
         $submit = $this->input->post('submit');
         if($submit == TRUE) {
             //update data sekolah
-            $datPost = $this->input->post();
+            $datPost = $this->input->post(NULL, TRUE);
             $cek = $this->model_admin->updateDataSekolah($datPost, $this->nisekolah);
             if($cek == TRUE){
                 $this->session->set_flashdata('flash', 'Data Berhasil Di Tambahkan');
@@ -101,7 +101,7 @@ class Admin extends CI_Controller {
         $submit = $this->input->post('submit');
         if($submit == TRUE){
             //get data post
-            $datPost = $this->input->post();
+            $datPost = $this->input->post(NULL, TRUE);
             //cek username 
             $cek = $this->model_admin->cekUsernameGuru($datPost['username']);
                     if($cek == TRUE){
@@ -123,6 +123,8 @@ class Admin extends CI_Controller {
                 $this->session->set_flashdata('flash', 'password tidak sama');
                     redirect('admin/tambah_guru');
             }
+            //encrypt password
+            $datPost['pw'] = $this->encryption->encrypt($datPost['pw']);
             //cek jabatan 
             $this->model_admin->cekJabatan($datPost['jabatan'], $this->nisekolah);
             //insert data guru
@@ -235,7 +237,7 @@ class Admin extends CI_Controller {
         $submit = $this->input->post('submit');
             if($submit == TRUE){
                 //get data post
-                $datPost = $this->input->post();
+                $datPost = $this->input->post(NULL, TRUE);
                 //cek username lama
                 $cek = $this->model_admin->cekUsernameAsli($datPost['id_akun_guru'],$datPost['username']);
                 if( $cek != TRUE ){
@@ -262,8 +264,9 @@ class Admin extends CI_Controller {
                         redirect('admin/update_guru/' . $datPost['nip']);
                     }
                 }else{
-                    $datPost['pw'] = $datPost['old_pw'];
+                    $datPost['pw'] = $this->encryption->decrypt($datPost['old_pw']);
                 }
+                $datPost['pw'] =  $this->encryption->encrypt($datPost['pw']);
                 //cek jabatan lama
                 $cek = $this->model_admin->cekJabatanAsli($datPost['nip'] ,$datPost['jabatan']);
                 if($cek != TRUE){
@@ -392,7 +395,7 @@ class Admin extends CI_Controller {
     public function update_siswa($nisn = '')
     {
         if($nisn != ''){
-            $post=$this->input->post();
+            $post=$this->input->post(NULL, TRUE);
             //get data siswa 
             $siswa = $this->model_sekolah->getSiswaByNISN($nisn);
             //get data siswa    
@@ -550,7 +553,7 @@ class Admin extends CI_Controller {
     {
         $submit = $this->input->post('submit');
         if($submit != ''){
-            $datPost = $this->input->post();
+            $datPost = $this->input->post(NULL, TRUE);
             //cek username 
             $cek = $this->model_admin->cekUsernameGuru($datPost['username']);
             if($cek == TRUE){
@@ -572,6 +575,8 @@ class Admin extends CI_Controller {
                 $this->session->set_flashdata('flash', 'password tidak sama');
                     redirect('admin/tambah_admin');
             }
+            // encrpyt password
+            $datPost['pw'] = $this->encryption->encrypt($datPost['pw']);
             //insert admin
             $cek = $this->model_admin->tambahAdmin($datPost);
                 if($cek == TRUE){
@@ -620,7 +625,7 @@ class Admin extends CI_Controller {
     {
         $submit = $this->input->post('submit');
         if($submit != ''){
-            $datPost = $this->input->post();
+            $datPost = $this->input->post(NULL, TRUE);
              //cek username lama
              $cek = $this->model_admin->cekUsernameAsliAdmin($datPost['id_admin'],$datPost['username']);
              if( $cek != TRUE ){
@@ -648,8 +653,9 @@ class Admin extends CI_Controller {
                  redirect('admin/update_admin/' . $datPost['id_admin']);
                  }
              }else{
-                 $datPost['pw'] = $datPost['old_pw'];
+                 $datPost['pw'] = $this->encryption->decrypt($datPost['old_pw']);
              }
+             $datPost['pw'] = $this->encryption->encrypt($datPost['pw']);
              //update akun admin
              $cek = $this->model_admin->updateAdmin($datPost);
                 if($cek == TRUE){
