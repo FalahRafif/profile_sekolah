@@ -29,7 +29,7 @@ class Login extends CI_Controller {
     {
         $data = '';
         
-        $this->load->view('login/login', $data);  
+        $this->load->view('login/login', $data);
 
     }
     public function login()
