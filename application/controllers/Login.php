@@ -41,7 +41,7 @@ class Login extends CI_Controller {
             $cekUser = $this->model_login->getDataUser($username);
             if(isset($cekUser)){
                 //// cek password sama atau tidak 
-                if($this->encryption->decrypt($password) === $cekUser['pw']){
+                if($password === $this->encryption->decrypt($cekUser['pw'])){
                     //get user level
                     $userLevel = $this->model_login->getUserLevel($cekUser['id_user_level']);
                     // set session
