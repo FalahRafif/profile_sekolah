@@ -323,7 +323,8 @@ class Admin extends CI_Controller {
         // cek tombol submit
         $submit = $this->input->post('submit');
         if($submit == TRUE){
-            $datPost = $this->input->post();
+            
+            $datPost = $this->input->post(NULL, TRUE);
             //cek username 
             $cek = $this->model_admin->cekUsernameGuru($datPost['username']);
                 if($cek == TRUE){
@@ -345,7 +346,8 @@ class Admin extends CI_Controller {
                 $this->session->set_flashdata('flash', 'password tidak sama');
                     redirect('admin/tambah_siswa');
             }
-            
+            // encrypt password
+            $datPost['pw'] = $this->encryption->encrypt($datPost['pw']);
             //insert data siswa
             $cek = $this->model_admin->tambahDataSiswa($datPost, $this->nisekolah);
             if($cek != TRUE){
@@ -393,7 +395,7 @@ class Admin extends CI_Controller {
             $post=$this->input->post();
             //get data siswa 
             $siswa = $this->model_sekolah->getSiswaByNISN($nisn);
-            //get data siswa 
+            //get data siswa    
             $akun_siswa = $this->model_admin->getAkunSiswaByNISN($nisn);
             //get ortu by nisn
             $ortu = $this->model_sekolah->getOrtuByNISN($nisn);
@@ -424,7 +426,7 @@ class Admin extends CI_Controller {
         $submit = $this->input->post('submit');
         if($submit == TRUE){
             // get data post
-            $datPost = $this->input->post();
+            $datPost = $this->input->post(NULL, TRUE);
              //cek username lama
             $cek = $this->model_admin->cekUsernameAsli($datPost['id_akun_siswa'],$datPost['username']);
             if( $cek != TRUE ){
@@ -452,9 +454,11 @@ class Admin extends CI_Controller {
                     redirect('admin/update_siswa/' . $datPost['nisn']);
                 }
             }else{
-                $datPost['pw'] = $datPost['old_pw'];
+                //decrypt old password
+                $datPost['pw'] = $datPost['pw'] = $this->encryption->decrypt($datPost['old_pw']);
             }
-            var_dump($datPost);
+            // encrypt password
+            $datPost['pw'] = $this->encryption->encrypt($datPost['pw']);
             //update data siswa 
             $cek = $this->model_admin->updateDataSiswa($datPost);
                 if($cek != TRUE){
