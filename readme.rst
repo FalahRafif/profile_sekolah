@@ -1,4 +1,30 @@
 ###################
+Profile Sekolah v2.0
+###################
+
+Testing Codeigniter 3 dengan Github
+
+*********
+Features
+*********
+
+-  `Landing Page`_
+-  `Multi Login`_
+-  `Dashboard Setiap Akun`_
+-  `CRUD Siswa, Guru, Admin`_
+-  `CRUD Join Table`_
+
+*********
+Reasource
+*********
+
+-  `Codeigniter 3 <https://codeigniter.com/docs>`_
+-  `Boostrap https://getbootstrap.com/`_
+-  `Datatable https://cdn.datatables.net`_
+
+
+
+###################
 What is CodeIgniter
 ###################
 
