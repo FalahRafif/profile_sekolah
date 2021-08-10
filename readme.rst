@@ -18,9 +18,9 @@ Features
 Reasource
 *********
 
--  `Codeigniter 3 <https://codeigniter.com/docs>`_
--  `Boostrap https://getbootstrap.com/`_
--  `Datatable https://cdn.datatables.net`_
+-  Codeigniter 3 <https://codeigniter.com/docs>
+-  Boostrap <https://getbootstrap.com/>
+-  Datatable <https://cdn.datatables.net>
 
 
 
